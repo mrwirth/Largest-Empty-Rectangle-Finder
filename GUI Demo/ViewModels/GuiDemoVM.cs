@@ -46,16 +46,49 @@ namespace GUI_Demo.ViewModels
             if (param is ItemsControl ic)
             {
                 Rectangles.Clear();
-                var main = new MainRectangleVM(new Rectangle(0, 0, (int)ic.ActualWidth, (int)ic.ActualHeight));
-                var overlay = new OverlayRectangleVM(new Rectangle(1, 5, (int)(ic.ActualWidth/3) , (int)(ic.ActualHeight / 2)));
-                //var main = new MainRectangleVM(new Rectangle(0, 0, 800, 600));
-                //var overlay = new OverlayRectangleVM(new Rectangle(10, 50, 266, 300));
-                var results = LargestEmptyRectangle.Find(main.Rectangle, new List<Rectangle>() { overlay.Rectangle });
+                var rand = new Random();
+                // Get canvas dimensions
+                int width = (int)ic.ActualWidth;
+                int height = (int)ic.ActualHeight;
+
+                // Create 'Main' rectangle
+                int mainX = rand.Next(0, 51);
+                int mainY = rand.Next(0, 51);
+                int mainWidth = rand.Next(100, width-mainX+1);
+                int mainHeight = rand.Next(100, height - mainY+1);
+
+                var main = new MainRectangleVM(new Rectangle(mainX, mainY, mainWidth, mainHeight));
+
+                // Create 4 - 12 "Overlay" rectangles
+                var count = rand.Next(4, 13);
+                var overlays = new List<OverlayRectangleVM>();
+                for (int i = 0; i < count; i++)
+                {
+                    int overlayX = rand.Next(0, width - 5);
+                    int overlayY = rand.Next(0, height - 5);
+                    int overlayWidth = rand.Next(5, width - overlayX + 1);
+                    int overlayHeight = rand.Next(5, height - overlayY + 1);
+                    var overlay = new OverlayRectangleVM(new Rectangle(overlayX, overlayY, overlayWidth, overlayHeight));
+                    overlays.Add(overlay);
+                }
+
+                // Get the "Result" rectangle
+                var (results, breakdowns) = LargestEmptyRectangle.Find(main.Rectangle, overlays.Select(o => o.Rectangle));
+
+                // Add the rectangles to the VM collection
                 Rectangles.Add(main);
-                Rectangles.Add(overlay);
+                foreach (var overlay in overlays)
+                {
+                    Rectangles.Add(overlay);
+                }
                 foreach (var result in results)
                 {
                     var rectangle = new ResultRectangleVM(result);
+                    Rectangles.Add(rectangle);
+                }
+                foreach (var breakdown in breakdowns)
+                {
+                    var rectangle = new ExtentRectangleVM(breakdown);
                     Rectangles.Add(rectangle);
                 }
             }

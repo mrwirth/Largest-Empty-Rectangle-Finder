@@ -73,6 +73,7 @@
     </ApplicationDefinition>
     <Compile Include="ViewModels\BaseRectangleVM.cs" />
     <Compile Include="ViewModels\BaseVM.cs" />
+    <Compile Include="ViewModels\ExtentRectangleVM.cs" />
     <Compile Include="ViewModels\GuiDemoVM.cs" />
     <Compile Include="ViewModels\MainRectangleVM.cs" />
     <Compile Include="ViewModels\OverlayRectangleVM.cs" />

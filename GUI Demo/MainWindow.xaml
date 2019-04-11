@@ -7,7 +7,7 @@
         xmlns:xwpf="http://schemas.xceed.com/wpf/xaml/toolkit"
         xmlns:vm="clr-namespace:GUI_Demo.ViewModels"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="476" Width="938">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
@@ -60,6 +60,26 @@
                     <ColumnDefinition Width="85"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
+                <Label Content="Extent Color:"/>
+                <xwpf:ColorPicker Grid.Column="1"
+                                  x:Name="ExtentRectColor"
+                                  SelectedColor="Red"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Extent Fill:"/>
+                <xwpf:ColorPicker Grid.Column="1"
+                                  x:Name="ExtentFillColor"
+                                  SelectedColor="Red"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
                 <Label Content="Background:"/>
                 <xwpf:ColorPicker Grid.Column="1"
                                   x:Name="BackgroundColor"
@@ -74,7 +94,7 @@
                 <Label Content="{Binding Rectangles.Count}" Grid.Column="1"/>
             </Grid>
         </StackPanel>
-        <ItemsControl ItemsSource="{Binding Rectangles}" x:Name="itemsControl">
+        <ItemsControl ItemsSource="{Binding Rectangles}" x:Name="itemsControl" Width="800" Height="400">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
                     <Canvas x:Name="canvas" Background="{Binding SelectedColorText, ElementName=BackgroundColor, Mode=OneWay}"/>
@@ -95,6 +115,9 @@
                 </DataTemplate>
                 <DataTemplate DataType="{x:Type vm:ResultRectangleVM}">
                     <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding SelectedColorText, ElementName=ResultRectColor, Mode=OneWay}" Fill="{x:Null}" StrokeThickness="3"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ExtentRectangleVM}">
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding SelectedColorText, ElementName=ExtentRectColor, Mode=OneWay}" Fill="{Binding SelectedColorText, ElementName=ExtentFillColor, Mode=OneWay}" StrokeThickness="1"/>
                 </DataTemplate>
             </ItemsControl.Resources>
         </ItemsControl>

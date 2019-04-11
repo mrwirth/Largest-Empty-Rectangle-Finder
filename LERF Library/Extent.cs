@@ -16,7 +16,7 @@ namespace LERF_Library
         public Extent TopExtent;
         public Extent BottomExtent;
 
-        // These are here because I can't inherite from Rectangle
+        // These are here because I can't inherit from Rectangle
         public int X => Rectangle.X;
         public int Y => Rectangle.Y;
         public int Width => Rectangle.Width;
