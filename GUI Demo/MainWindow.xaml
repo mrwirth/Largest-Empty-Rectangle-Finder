@@ -5,17 +5,21 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GUI_Demo"
         xmlns:xwpf="http://schemas.xceed.com/wpf/xaml/toolkit"
+        xmlns:vm="clr-namespace:GUI_Demo.ViewModels"
         mc:Ignorable="d"
         Title="MainWindow" Height="450" Width="800">
     <DockPanel>
         <Menu DockPanel.Dock="Top">
             <MenuItem Header="_File">
-                <MenuItem Header="Generate _New Random Sample"/>
+                <MenuItem Header="Generate _New Random Sample"
+                          CommandParameter="{Binding ElementName=itemsControl}"
+                          Command="{Binding GenerateSample}"/>
             </MenuItem>
         </Menu>
         <ToolBarTray DockPanel.Dock="Top">
             <ToolBar>
-                <Button Command="{Binding OpenFolder}">
+                <Button CommandParameter="{Binding ElementName=itemsControl}"
+                        Command="{Binding GenerateSample}">
                     <ContentControl Content="{StaticResource NewRandomSample}" ToolTip="Generate New Random Sample"/>
                 </Button>
             </ToolBar>
@@ -26,9 +30,9 @@
                     <ColumnDefinition Width="85"/>
                     <ColumnDefinition Width="*"/>
                 </Grid.ColumnDefinitions>
-                <Label Content="Base Color:"/>
+                <Label Content="Main Color:"/>
                 <xwpf:ColorPicker Grid.Column="1"
-                                  x:Name="BaseRectColor"
+                                  x:Name="MainRectColor"
                                   SelectedColor="Blue"/>
             </Grid>
             <Grid>
@@ -51,7 +55,48 @@
                                   x:Name="ResultRectColor"
                                   SelectedColor="Orange"/>
             </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Background:"/>
+                <xwpf:ColorPicker Grid.Column="1"
+                                  x:Name="BackgroundColor"
+                                  SelectedColor="DimGray"/>
+            </Grid>
+            <Grid>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="85"/>
+                    <ColumnDefinition Width="*"/>
+                </Grid.ColumnDefinitions>
+                <Label Content="Rectangles: "/>
+                <Label Content="{Binding Rectangles.Count}" Grid.Column="1"/>
+            </Grid>
         </StackPanel>
-        <Canvas Name="ResultCanvas"/>
+        <ItemsControl ItemsSource="{Binding Rectangles}" x:Name="itemsControl">
+            <ItemsControl.ItemsPanel>
+                <ItemsPanelTemplate>
+                    <Canvas x:Name="canvas" Background="{Binding SelectedColorText, ElementName=BackgroundColor, Mode=OneWay}"/>
+                </ItemsPanelTemplate>
+            </ItemsControl.ItemsPanel>
+            <ItemsControl.ItemContainerStyle>
+                <Style TargetType="ContentPresenter">
+                    <Setter Property="Canvas.Left" Value="{Binding X}"/>
+                    <Setter Property="Canvas.Top" Value="{Binding Y}"/>
+                </Style>
+            </ItemsControl.ItemContainerStyle>
+            <ItemsControl.Resources>
+                <DataTemplate DataType="{x:Type vm:MainRectangleVM}">
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding SelectedColorText, ElementName=MainRectColor, Mode=OneWay}" Fill="{Binding SelectedColorText, ElementName=MainRectColor, Mode=OneWay}" StrokeThickness="5"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:OverlayRectangleVM}">
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding SelectedColorText, ElementName=OverlayRectColor, Mode=OneWay}" Fill="{Binding SelectedColorText, ElementName=OverlayRectColor, Mode=OneWay}" StrokeThickness="3"/>
+                </DataTemplate>
+                <DataTemplate DataType="{x:Type vm:ResultRectangleVM}">
+                    <Rectangle Width="{Binding Width}" Height="{Binding Height}" Stroke="{Binding SelectedColorText, ElementName=ResultRectColor, Mode=OneWay}" Fill="{x:Null}" StrokeThickness="3"/>
+                </DataTemplate>
+            </ItemsControl.Resources>
+        </ItemsControl>
     </DockPanel>
 </Window>

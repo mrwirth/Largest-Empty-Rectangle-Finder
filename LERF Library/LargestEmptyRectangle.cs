@@ -132,7 +132,7 @@ namespace LERF_Library
             while (lastColumn != null)
             {
                 var lastRow = lastColumn;
-                while (lastRow != null)
+                while (lastRow.BottomExtent != null)
                 {
                     lastRow = lastRow.BottomExtent;
                 }
