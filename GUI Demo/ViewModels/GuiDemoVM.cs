@@ -95,14 +95,20 @@ namespace GUI_Demo.ViewModels
         }
         #endregion Display Data
 
+        #region Local State
+        private bool Working = false;
+        #endregion Local State
+
         #region GenerateSampleCommand
         protected bool CanGenerateSample(object param)
         {
-            return true;
+            return !Working;
         }
         protected async Task ExecuteGenerateSample(object param)
         {
+            Working = true;
             await DoSampleRun(param);
+            Working = false;
         }
         private ICommand _generateSample;
         public ICommand GenerateSample
