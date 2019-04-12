@@ -13,24 +13,9 @@ namespace LERF_Library
         public static (ICollection<Rectangle> LERs, ICollection<Rectangle> Extents) Find(Rectangle baseRectangle, IEnumerable<Rectangle> overlaidRectangles)
         {
             var baseRectangleSet = SubtractOverlays(baseRectangle, overlaidRectangles);
-            CheckRectangles(baseRectangleSet);
             var largestEmptyExtents = FindLargestEmptyRectangles(baseRectangleSet);
             var largestEmptyRectangles = largestEmptyExtents.Select(e => e.Rectangle);
             return (largestEmptyRectangles.ToList(), baseRectangleSet.Select(e => e.Rectangle).ToList());
-        }
-
-        private static void CheckRectangles(IEnumerable<Extent> baseRectangleSet)
-        {
-            var baseSet = baseRectangleSet.ToHashSet();
-            var connectionSet = new HashSet<Extent>();
-            connectionSet.Union(baseRectangleSet.Select(e => e.LeftExtent).ToHashSet());
-            connectionSet.Union(baseRectangleSet.Select(e => e.RightExtent).ToHashSet());
-            connectionSet.Union(baseRectangleSet.Select(e => e.TopExtent).ToHashSet());
-            connectionSet.Union(baseRectangleSet.Select(e => e.BottomExtent).ToHashSet());
-            if (connectionSet.Except(baseSet).Count() != 0)
-            {
-                throw new Exception();
-            }
         }
 
         private static IEnumerable<Extent> SubtractOverlays(Rectangle baseRectangle, IEnumerable<Rectangle> overlaidRectangles)
@@ -94,25 +79,8 @@ namespace LERF_Library
                 baseExtents.Remove(extent);
                 var leftExtent = new Extent(extent.Left, extent.Top, axis - extent.Left, extent.Height);
                 var rightExtent = new Extent(axis, extent.Top, extent.Right - axis, extent.Height);
-                // Horizontal connections
-                leftExtent.LeftExtent = extent.LeftExtent;
-                leftExtent.RightExtent = rightExtent;
-                rightExtent.LeftExtent = leftExtent;
-                rightExtent.RightExtent = extent.RightExtent;
-                extentsToMerge.Add(leftExtent);
-                extentsToMerge.Add(rightExtent);
-            }
-
-            foreach (var extent in extentsToMerge)
-            {
-                // Vertical connections
-                extent.TopExtent = extentsToMerge
-                    .Where(e => e.Left == extent.Left && e.Bottom == extent.Top)
-                    .FirstOrDefault();
-                extent.BottomExtent = extentsToMerge
-                    .Where(e => e.Left == extent.Left && e.Top == extent.Bottom)
-                    .FirstOrDefault();
-                baseExtents.Add(extent);
+                baseExtents.Add(leftExtent);
+                baseExtents.Add(rightExtent);
             }
 
             return baseExtents;
@@ -129,25 +97,8 @@ namespace LERF_Library
                 baseExtents.Remove(extent);
                 var topExtent = new Extent(extent.Left, extent.Top, extent.Width, axis - extent.Top);
                 var bottomExtent = new Extent(extent.Left, axis, extent.Width, extent.Bottom - axis);
-                // Vertical connections
-                topExtent.TopExtent = extent.TopExtent;
-                topExtent.BottomExtent = bottomExtent;
-                bottomExtent.TopExtent = topExtent;
-                bottomExtent.BottomExtent = extent.BottomExtent;
                 baseExtents.Add(topExtent);
                 baseExtents.Add(bottomExtent);
-            }
-
-            foreach (var extent in extentsToMerge)
-            {
-                // Horizontal connections
-                extent.LeftExtent = extentsToMerge
-                    .Where(e => e.Top == extent.Top && e.Right == extent.Left)
-                    .FirstOrDefault();
-                extent.RightExtent = extentsToMerge
-                    .Where(e => e.Top == extent.Top && e.Left == extent.Right)
-                    .FirstOrDefault();
-                baseExtents.Add(extent);
             }
 
             return baseExtents;
@@ -155,26 +106,37 @@ namespace LERF_Library
 
         private static IEnumerable<Extent> FindLargestEmptyRectangles(IEnumerable<Extent> baseExtentSet)
         {
-            //var LERs = new ConcurrentBag<Extent>();
-            //Parallel.ForEach(baseExtentSet, (extent) =>
-            //{
-            //    var extentLERs = GetMaxExtents(extent);
-            //    foreach (var LER in extentLERs)
-            //    {
-            //        LERs.Add(LER);
-            //    }
-            //});
-            var LERs = new HashSet<Extent>();
-            foreach (var extent in baseExtentSet)
+            baseExtentSet.ConnectExtents();
+            var LERs = new ConcurrentBag<Extent>();
+            Parallel.ForEach(baseExtentSet, (extent) =>
             {
                 var extentLERs = GetMaxExtents(extent);
                 foreach (var LER in extentLERs)
                 {
                     LERs.Add(LER);
                 }
-            }
+            });
             var maxArea = LERs.Max(e => e.Area);
             return LERs.Where(e => e.Area == maxArea);
+        }
+
+        private static void ConnectExtents(this IEnumerable<Extent> extents)
+        {
+            foreach (var extent in extents)
+            {
+                extent.LeftExtent = extents
+                    .Where(e => e.Right == extent.Left && e.Top == extent.Top)
+                    .FirstOrDefault();
+                extent.RightExtent = extents
+                    .Where(e => e.Left == extent.Right && e.Top == extent.Top)
+                    .FirstOrDefault();
+                extent.TopExtent = extents
+                    .Where(e => e.Bottom == extent.Top && e.Left == extent.Left)
+                    .FirstOrDefault();
+                extent.BottomExtent = extents
+                    .Where(e => e.Top == extent.Bottom && e.Left == extent.Left)
+                    .FirstOrDefault();
+            }
         }
 
         private static HashSet<Extent> GetMaxExtents(Extent origin)
