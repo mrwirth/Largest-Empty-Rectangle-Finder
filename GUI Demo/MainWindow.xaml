@@ -24,134 +24,221 @@
                 </Button>
             </ToolBar>
         </ToolBarTray>
-        <StackPanel DockPanel.Dock="Left" Width="145">
-            <GroupBox Header="Main Rectangle">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Border Color:" Grid.Row="0"/>
-                    <xwpf:ColorPicker x:Name="MainRectBorderColor"
-                                      SelectedColor="Blue"
-                                      Grid.Row="0" Grid.Column="1"/>
+        <ScrollViewer DockPanel.Dock="Left">
+            <StackPanel DockPanel.Dock="Left" Width="150">
+                <Expander Header="Overlay Variables">
+                    <StackPanel>
+                        <GroupBox Header="Overlay Count">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Minimum"
+                                       Grid.Row="0"/>
+                                <xwpf:IntegerUpDown Value="{Binding MinimumOverlayCount, Mode=TwoWay}"
+                                                    Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Maximum"
+                                       Grid.Row="1"/>
+                                <xwpf:IntegerUpDown Value="{Binding MaximumOverlayCount, Mode=TwoWay}"
+                                                    Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Overlay Width">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Minimum"
+                                       Grid.Row="0"/>
+                                <xwpf:IntegerUpDown Value="{Binding MinimumOverlayWidth, Mode=TwoWay}"
+                                                    Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Maximum"
+                                       Grid.Row="1"/>
+                                <xwpf:IntegerUpDown Value="{Binding MaximumOverlayWidth, Mode=TwoWay}"
+                                                    Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Overlay Height">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="85"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Minimum"
+                                       Grid.Row="0"/>
+                                <xwpf:IntegerUpDown Value="{Binding MinimumOverlayHeight, Mode=TwoWay}"
+                                                    Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Maximum"
+                                       Grid.Row="1"/>
+                                <xwpf:IntegerUpDown Value="{Binding MaximumOverlayHeight, Mode=TwoWay}"
+                                                    Grid.Row="1" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Canvas Controls">
+                    <StackPanel>
+                        <GroupBox Header="Main Rectangle">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Border Color:" Grid.Row="0"/>
+                                <xwpf:ColorPicker x:Name="MainRectBorderColor"
+                                                  SelectedColor="Blue"
+                                                  Grid.Row="0" Grid.Column="1"/>
 
-                    <Label Content="Fill Color:" Grid.Row="1"/>
-                    <xwpf:ColorPicker x:Name="MainRectFillColor"
-                                      SelectedColor="Blue"
-                                  Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="Fill Color:" Grid.Row="1"/>
+                                <xwpf:ColorPicker x:Name="MainRectFillColor"
+                                                  SelectedColor="Blue"
+                                                  Grid.Row="1" Grid.Column="1"/>
 
-                    <Label Content="Stroke Width:" Grid.Row="2"/>
-                    <xwpf:IntegerUpDown x:Name="MainRectStrokeWidth"
-                                        Value="5"
-                                        Grid.Row="2" Grid.Column="1"/>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Overlay Rectangles">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Overlay Border:" Grid.Row="0"/>
-                    <xwpf:ColorPicker x:Name="OverlayRectBorderColor"
-                                  SelectedColor="LightGreen"
-                                  Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Stroke Width:" Grid.Row="2"/>
+                                <xwpf:IntegerUpDown x:Name="MainRectStrokeWidth"
+                                                    Value="1"
+                                                    Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Overlay Rectangles">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Overlay Border:" Grid.Row="0"/>
+                                <xwpf:ColorPicker x:Name="OverlayRectBorderColor"
+                                                  SelectedColor="LightGreen"
+                                                  Grid.Row="0" Grid.Column="1"/>
 
-                    <Label Content="Overlay Fill:" Grid.Row="1"/>
-                    <xwpf:ColorPicker x:Name="OverlayRectFillColor"
-                                  SelectedColor="Green"
-                                  Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="Overlay Fill:" Grid.Row="1"/>
+                                <xwpf:ColorPicker x:Name="OverlayRectFillColor"
+                                                  SelectedColor="Green"
+                                                  Grid.Row="1" Grid.Column="1"/>
 
-                    <Label Content="Overlay Stroke:" Grid.Row="2"/>
-                    <xwpf:IntegerUpDown x:Name="OverlayRectStrokeWidth"
-                                    Value="1"
-                                    Grid.Row="2" Grid.Column="1"/>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Result Rectangle">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Result Border:" Grid.Row="0"/>
-                    <xwpf:ColorPicker x:Name="ResultRectBorderColor"
-                                  SelectedColor="Orange"
-                                  Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Overlay Stroke:" Grid.Row="2"/>
+                                <xwpf:IntegerUpDown x:Name="OverlayRectStrokeWidth"
+                                                    Value="1"
+                                                    Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Result Rectangle">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Result Border:" Grid.Row="0"/>
+                                <xwpf:ColorPicker x:Name="ResultRectBorderColor"
+                                                  SelectedColor="Orange"
+                                                  Grid.Row="0" Grid.Column="1"/>
 
-                    <Label Content="Result Fill:" Grid.Row="1"/>
-                    <xwpf:ColorPicker x:Name="ResultRectFillColor"
-                                  SelectedColor="Transparent"
-                                  Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="Result Fill:" Grid.Row="1"/>
+                                <xwpf:ColorPicker x:Name="ResultRectFillColor"
+                                                  SelectedColor="#7FFFFFFF"
+                                                  Grid.Row="1" Grid.Column="1"/>
 
-                    <Label Content="Result Stroke:" Grid.Row="2"/>
-                    <xwpf:IntegerUpDown x:Name="ResultRectStrokeWidth"
-                                    Value="3"
-                                    Grid.Row="2" Grid.Column="1"/>
-                </Grid>
-            </GroupBox>
-            <GroupBox Header="Extent Rectangles">
-                <Grid>
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="90"/>
-                        <ColumnDefinition Width="*"/>
-                    </Grid.ColumnDefinitions>
-                    <Grid.RowDefinitions>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                        <RowDefinition/>
-                    </Grid.RowDefinitions>
-                    <Label Content="Extent Color:" Grid.Row="0"/>
-                    <xwpf:ColorPicker x:Name="ExtentBorderColor"
-                                  SelectedColor="Red"
-                                  Grid.Row="0" Grid.Column="1"/>
+                                <Label Content="Result Stroke:" Grid.Row="2"/>
+                                <xwpf:IntegerUpDown x:Name="ResultRectStrokeWidth"
+                                                    Value="3"
+                                                    Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Extent Rectangles">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Extent Color:" Grid.Row="0"/>
+                                <xwpf:ColorPicker x:Name="ExtentBorderColor"
+                                                  SelectedColor="#9FFF0000"
+                                                  Grid.Row="0" Grid.Column="1"/>
 
-                    <Label Content="Extent Fill:" Grid.Row="1"/>
-                    <xwpf:ColorPicker x:Name="ExtentFillColor"
-                                  SelectedColor="Transparent"
-                                  Grid.Row="1" Grid.Column="1"/>
+                                <Label Content="Extent Fill:" Grid.Row="1"/>
+                                <xwpf:ColorPicker x:Name="ExtentFillColor"
+                                                  SelectedColor="Transparent"
+                                                  Grid.Row="1" Grid.Column="1"/>
 
-                    <Label Content="Extent Stroke:" Grid.Row="2"/>
-                    <xwpf:IntegerUpDown x:Name="ExtentStrokeWidth"
-                                    Value="1"
-                                    Grid.Row="2" Grid.Column="1"/>
-                </Grid>
-            </GroupBox>
-            <Grid>
-                <Grid.ColumnDefinitions>
-                    <ColumnDefinition Width="90"/>
-                    <ColumnDefinition Width="*"/>
-                </Grid.ColumnDefinitions>
-                <Grid.RowDefinitions>
-                    <RowDefinition/>
-                    <RowDefinition/>
-                </Grid.RowDefinitions>
-                <Label Content="Background:" Grid.Row="0"/>
-                <xwpf:ColorPicker x:Name="BackgroundColor"
-                                  SelectedColor="DimGray"
-                                  Grid.Row="0" Grid.Column="1"/>
-
-                <Label Content="Rectangles: " Grid.Row="1"/>
-                <Label Content="{Binding Rectangles.Count}"
-                       Grid.Row="1" Grid.Column="1"/>
-            </Grid>
-        </StackPanel>
+                                <Label Content="Extent Stroke:" Grid.Row="2"/>
+                                <xwpf:IntegerUpDown x:Name="ExtentStrokeWidth"
+                                                    Value="1"
+                                                    Grid.Row="2" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                        <GroupBox Header="Background">
+                            <Grid>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="90"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Grid.RowDefinitions>
+                                    <RowDefinition/>
+                                </Grid.RowDefinitions>
+                                <Label Content="Color:" Grid.Row="0"/>
+                                <xwpf:ColorPicker x:Name="BackgroundColor"
+                                                  SelectedColor="DimGray"
+                                                  Grid.Row="0" Grid.Column="1"/>
+                            </Grid>
+                        </GroupBox>
+                    </StackPanel>
+                </Expander>
+                <Expander Header="Sample Info">
+                    <StackPanel>
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="70"/>
+                                <ColumnDefinition Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <Grid.RowDefinitions>
+                                <RowDefinition/>
+                                <RowDefinition/>
+                            </Grid.RowDefinitions>
+                            <Label Content="Rectangles:" Grid.Row="0"/>
+                            <Label Content="{Binding Rectangles.Count}"
+                                   Grid.Row="0" Grid.Column="1"/>
+                            <Label Content="Find time:" Grid.Row="1"/>
+                            <Label Content="{Binding FindTime}"
+                                   Grid.Row="1" Grid.Column="1"/>
+                        </Grid>
+                    </StackPanel>
+                </Expander>
+            </StackPanel>
+        </ScrollViewer>
         <ItemsControl ItemsSource="{Binding Rectangles}" x:Name="itemsControl">
             <ItemsControl.ItemsPanel>
                 <ItemsPanelTemplate>
