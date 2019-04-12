@@ -73,7 +73,7 @@
                 <Label Content="Extent Fill:"/>
                 <xwpf:ColorPicker Grid.Column="1"
                                   x:Name="ExtentFillColor"
-                                  SelectedColor="Red"/>
+                                  SelectedColor="Transparent"/>
             </Grid>
             <Grid>
                 <Grid.ColumnDefinitions>
