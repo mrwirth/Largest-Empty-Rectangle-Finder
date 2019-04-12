@@ -148,10 +148,10 @@ namespace GUI_Demo.ViewModels
             }
 
             // Create 'Main' rectangle
-            int mainX = rand.Next(0, 51);
-            int mainY = rand.Next(0, 51);
-            int mainWidth = rand.Next(100, width - mainX + 1);
-            int mainHeight = rand.Next(100, height - mainY + 1);
+            int mainWidth = rand.Next(100, width + 1);
+            int mainHeight = rand.Next(100, height + 1);
+            int mainX = rand.Next(0, width - mainWidth + 1);
+            int mainY = rand.Next(0, height - mainHeight + 1);
 
             var main = new MainRectangleVM(new Rectangle(mainX, mainY, mainWidth, mainHeight));
 
