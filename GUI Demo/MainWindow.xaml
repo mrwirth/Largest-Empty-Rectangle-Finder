@@ -25,7 +25,7 @@
             </ToolBar>
         </ToolBarTray>
         <ScrollViewer DockPanel.Dock="Left">
-            <StackPanel DockPanel.Dock="Left" Width="150">
+            <StackPanel DockPanel.Dock="Left" Width="200">
                 <Expander Header="Overlay Variables">
                     <StackPanel>
                         <GroupBox Header="Overlay Count">
